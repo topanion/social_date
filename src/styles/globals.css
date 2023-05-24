@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.screen-no-bar {
+    min-height : -webkit-fill-available
+}
