@@ -8,7 +8,7 @@ export default function Page() {
   const session = useSession();
 
   useEffect(() => {
-    if (!session && router.isReady) router.push("/");
+    // if (!session && router.isReady) router.push("/");
   }, [router.isReady, session]);
 
   return (
