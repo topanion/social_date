@@ -8,7 +8,7 @@ export default function Page() {
   useEffect(() => {}, [router.isReady]);
 
   return (
-    <div className="w-screen h-screen flex px-[5%]">
+    <div className="w-screen h-[100vh] flex px-[5%]">
       {router.isReady && <Chat id={router.query.id} />}
     </div>
   );

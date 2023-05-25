@@ -5,8 +5,8 @@ export default function Page() {
   const supabase = useSupabaseClient();
 
   return (
-    <>
+    <div className="w-screen h-[100vh] flex">
       <TestButton onClick={() => supabase.auth.signOut()}>Sign Out</TestButton>
-    </>
+    </div>
   );
 }
