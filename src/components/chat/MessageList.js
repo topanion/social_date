@@ -12,10 +12,9 @@ export default function MessageList({ conversation_id }) {
   const functionSetList = async () => {
     const { data } = await supabase
       .from("tchat_message")
-      .select("*")
+      .select("*, source_id(id, username), receiver_id(id, username)")
       .order("created_at", { ascending: false })
       .eq("conversation_id", conversation_id);
-    console.log("list is gonna be ", data);
 
     setList(data);
   };
@@ -39,7 +38,7 @@ export default function MessageList({ conversation_id }) {
   }, [list]);
 
   return (
-    <div className="overflow-y-scroll flex flex-col-reverse w-[100%] h-[80vh]">
+    <div className="overflow-y-scroll flex flex-col-reverse gap-1 w-[100%] h-[80vh]">
       {list &&
         list != [] &&
         list.map((e) => {

@@ -36,8 +36,6 @@ export default function Chat({ id }) {
       })
       .select("*")
       .single();
-
-    console.log("Did send the message : ", data);
   };
 
   return (
