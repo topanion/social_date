@@ -6,6 +6,8 @@ import {
 import NewPost from "./NewPost";
 import { useState, useEffect } from "react";
 import PostList from "./PostList";
+import FeedTop from "./FeedTop";
+import { getAllFriends } from "../utils/db";
 
 export default function Feed() {
   const [friends, setFriends] = useState(null);
@@ -13,20 +15,14 @@ export default function Feed() {
   const supabase = useSupabaseClient();
 
   useEffect(() => {
-    if (user && !friends) getAllFriends();
-  }, [user, friends]);
+    if (user && !friends) {
+      getAllFriends(user, supabase).then((e) => {
+        setFriends(e);
+      })
+    }
+  }, [friends]);
 
-  const getAllFriends = async () => {
-    const { data: friends, friendsError: error } = await supabase
-      .from("user_friend")
-      .select("*")
-      .or("user1.eq." + user.id + ",user2.eq." + user.id);
 
-    const allFriends = friends.map((e) => {
-      return e.user1 === user.id ? e.user2 : e.user1;
-    });
-    setFriends(allFriends);
-  };
 
   const sendPost = async (post) => {
     const { data: newPost, error: postError } = await supabase
@@ -38,11 +34,11 @@ export default function Feed() {
       .select("*")
       .single();
 
-    console.log("posted ", newPost);
   };
 
   return (
     <div className="w-full flex flex-col">
+      {user && <FeedTop user={user.user_metadata}/>}
       <NewPost sendPost={sendPost} />
 
       {friends && <PostList friends={friends} />}

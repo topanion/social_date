@@ -4,7 +4,7 @@ export default function NewPost({ sendPost }) {
   const [body, setBody] = useState("");
 
   return (
-    <div className="p-2">
+    <div className="p-2 mt-[8vh]">
       <form
         onSubmit={(e) => {
           e.preventDefault();

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { createUpdateSubscription } from "../utils/subscription";
-import Post from "../post/Post";
+import Post from "./Post";
 
 export default function PostList({ friends }) {
   const [list, setList] = useState(null);
@@ -43,7 +43,7 @@ export default function PostList({ friends }) {
   }, [list, user]);
 
   return (
-    <div className="flex flex-col gap-1 w-[100%]">
+    <div className="flex flex-col gap-2 mx-[3%]">
       {list &&
         list != [] &&
         list.map((e, i) => {

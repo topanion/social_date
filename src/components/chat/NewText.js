@@ -4,14 +4,14 @@ export default function NewText({ sendMessage }) {
   const [body, setBody] = useState("");
 
   return (
-    <div className="border-t p-2">
+    <div className="fixed h-[8vh] bottom-0 w-full bg-white border-t p-2">
       <form
         onSubmit={(e) => {
           e.preventDefault();
           sendMessage(body);
           setBody("");
         }}
-        className="flex items-center space-x-3"
+        className="flex space-x-3 h-full py-1"
       >
         <input
           autoFocus
@@ -20,11 +20,11 @@ export default function NewText({ sendMessage }) {
           placeholder="Write a message..."
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          className="flex-1 p-2 rounded bg-[#222226] border border-[#222226] focus:border-[#222226] focus:outline-none text-white placeholder-white"
+          className="flex-auto px-3 py-2 text-sm rounded-full bg-gray-400 focus:border-[#222226] focus:outline-none text-white placeholder-white"
         />
         <button
           type="submit"
-          className="bg-[#3c8baa] rounded-2xl font-medium text-white px-2 py-1  text-lg border border-transparent hover:bg-[#363739] transition"
+          className="bg-[#3c8baa] rounded-full font-medium text-white px-3 text-lg border border-transparent hover:bg-[#363739] transition"
           disabled={!body}
         >
           ►

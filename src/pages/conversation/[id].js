@@ -12,7 +12,7 @@ export default function Page() {
   }, [router.isReady, session]);
 
   return (
-    <div className="w-screen h-[100vh] flex px-[5%]">
+    <div className="">
       {router.isReady && <Chat id={router.query.id} />}
     </div>
   );

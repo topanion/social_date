@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { createUpdateSubscription } from "../utils/subscription";
-import Message from "./Message";
+import UserMessage from "./UserMessage";
+import ReceiverMessage from "./ReceiverMessage";
+import { timeOrNot, timeDifference, getDay } from "../utils/time";
 
-export default function MessageList({ conversation_id }) {
+export default function MessageList({ conversation, sender, receiver }) {
   const [list, setList] = useState(null);
   const supabase = useSupabaseClient();
   const user = useUser();
@@ -12,9 +14,9 @@ export default function MessageList({ conversation_id }) {
   const functionSetList = async () => {
     const { data } = await supabase
       .from("tchat_message")
-      .select("*, source_id(id, username), receiver_id(id, username)")
+      .select("*")
       .order("created_at", { ascending: false })
-      .eq("conversation_id", conversation_id);
+      .eq("conversation_id", conversation.id);
 
     setList(data);
   };
@@ -38,11 +40,27 @@ export default function MessageList({ conversation_id }) {
   }, [list]);
 
   return (
-    <div className="overflow-y-scroll flex flex-col-reverse gap-1 w-[100%] h-[80vh]">
+    <div className="overflow-y-scroll gap-1 flex flex-col-reverse px-[3%] py-[1%] my-[3%] mt-[8vh] h-[84vh]">
       {list &&
         list != [] &&
-        list.map((e) => {
-          return <Message key={e.created_at} message={e} userId={user.id} />;
+        list.map((e, i) => {
+          // keep time_difference so that it writes when it's another day
+          const time_difference = (i === 0) ? {hours: 0, minutes: 0, days:0} : timeDifference(list[i].created_at, list[i-1].created_at);
+          // if it's the first message of the list, there's nothing to compare to so no time display
+
+          const time_bool = (i === 0) ? true : timeOrNot(list[i], list[i-1]);
+          let message_output = null;
+          let day = null;
+          if (sender.id === e.source_id)
+            message_output = <UserMessage  message={e} user={sender} time_bool={time_bool} />;
+          else 
+            message_output = <ReceiverMessage  message={e} user={receiver} time_bool={time_bool}/>
+
+          if (time_difference.days > 0) {
+            day = <div className="w-full text-center p-1">{getDay(list[i-1].created_at)}</div>
+          }
+          
+          return (<div key={e.created_at}>{message_output}{day}</div>)
         })}
     </div>
   );
