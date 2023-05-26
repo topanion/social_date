@@ -4,13 +4,13 @@ import { useRouter } from "next/router";
 import { useSession } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
 import Post from "@/components/post/Post";
+import Feed from "@/components/home/Feed";
 
 export default function Page() {
   const supabase = useSupabaseClient();
   const router = useRouter();
   const user = useUser();
   const session = useSession();
-  const [post, setPost] = useState(null);
 
   useEffect(() => {
     if (!session && router.isReady) router.push("/");
@@ -25,11 +25,25 @@ export default function Page() {
     setPost(data[0]);
   };
 
+  const testFriend = async () => {
+    const { data: friends, friendsError: error } = await supabase
+      .from("user_friend")
+      .select("*")
+      .or("user1.eq." + user.id + ",user2.eq." + user.id);
+
+    const allFriends = friends.map((e) => {
+      return e.user1 === user.id ? e.user2 : e.user1;
+    });
+    console.log(allFriends);
+  };
+
   return (
     <div className="m-auto p-5 flex flex-col border rounded-md gap-6">
-      <Post post={post} />
-      <TestButton onClick={() => testDB()}>Test get</TestButton>
-      <TestButton onClick={() => console.log(user)}>User</TestButton>
+      <Feed />
+      <TestButton onClick={() => router.push("/conversation")}>
+        Conversations
+      </TestButton>
+
       <TestButton onClick={() => supabase.auth.signOut()}>Sign Out</TestButton>
     </div>
   );
