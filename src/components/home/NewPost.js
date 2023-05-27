@@ -16,6 +16,8 @@ export default function NewPost({ sendPost }) {
         <textarea
           id="message"
           name="message"
+          autocomplete="off"
+
           placeholder="Post something..."
           value={body}
           onChange={(e) => setBody(e.target.value)}
