@@ -4,7 +4,7 @@ export default function NewText({ sendMessage }) {
   const [body, setBody] = useState("");
 
   return (
-    <div className="fixed h-[8vh] bottom-0 w-full bg-white border-t p-2">
+    <div className="fixed bottom-0 w-full bg-white border-t p-2">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -21,7 +21,7 @@ export default function NewText({ sendMessage }) {
           value={body}
           autocomplete="off"
           onChange={(e) => setBody(e.target.value)}
-          className="flex-auto px-3 py-2 text-base min-h-[20px] rounded-full bg-gray-400 focus:border-[#222226] focus:outline-none text-white placeholder-white"
+          className="flex-auto px-3 py-2 text-base h-[7vh] min-h-[20px] rounded-full bg-gray-400 focus:border-[#222226] focus:outline-none text-white placeholder-white"
         />
         <button
           type="submit"
