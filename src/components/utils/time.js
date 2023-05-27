@@ -12,15 +12,25 @@ export const timeDifference = (initial_time, other_time) => {
 }
 
 export const timeOrNot = (msg, previous_msg) => {
+  
   const difference = timeDifference(msg.created_at, previous_msg.created_at);
-  const same = (msg.source_id === previous_msg.source_id) ? true : false;
 
+  const same_user = (msg.source_id === previous_msg.source_id) ? true : false;
+  
   // if the two messages are from the same user with less than 30 minutes of difference, time is not displayed
-  if (difference.days === 0 && difference.hours === 0 && 
-    difference.minutes < 30 && same) 
+  if ( difference.days < 1 && difference.hours === 0 && 
+    difference.minutes < 30 && same_user)
     return false;
     else
     return true;
+}
+
+export const differentDay = (time1, time2) => {
+  const date1 = new Date(time1);
+  const date2 = new Date(time2);
+
+  const diff = date1.getDate() !== date2.getDate();
+  return (diff);
 }
 
 export const postTime = (post_time) => {

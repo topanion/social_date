@@ -16,7 +16,7 @@ export default function NewPost({ sendPost }) {
         <textarea
           id="message"
           name="message"
-          autocomplete="off"
+          autoComplete="off"
 
           placeholder="Post something..."
           value={body}

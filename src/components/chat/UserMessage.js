@@ -6,6 +6,9 @@ export default function UserMessage({ message, time_bool }) {
   const time = messageTime(message.created_at);
   const [displayTime, setDisplayTime] = useState(time_bool);
 
+  useEffect(() => {
+  }, [time_bool]);
+  
   return (
     <div
       className={`grid justify-items-end`} 
@@ -14,12 +17,12 @@ export default function UserMessage({ message, time_bool }) {
     >
       <div className="flex flex-col max-w-[90%]">
         <div
-          className={`border rounded-2xl bg-[#3d94ce] text-white py-2 px-3`}
+          className={`max-w-[85vw] break-all border rounded-2xl bg-[#3d94ce] text-white py-2 px-3`}
         >
           {message.content}
         </div>
         {displayTime &&
-        <div className={`text-xs text-right`}>
+        <div className={`text-xs text-right mr-2`}>
           {time}
         </div>}
       </div>

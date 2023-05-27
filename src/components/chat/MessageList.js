@@ -4,7 +4,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { createUpdateSubscription } from "../utils/subscription";
 import UserMessage from "./UserMessage";
 import ReceiverMessage from "./ReceiverMessage";
-import { timeOrNot, timeDifference, getDay } from "../utils/time";
+import { timeOrNot, timeDifference, getDay, differentDay } from "../utils/time";
 
 export default function MessageList({ conversation, sender, receiver }) {
   const [list, setList] = useState(null);
@@ -28,7 +28,9 @@ export default function MessageList({ conversation, sender, receiver }) {
       "*",
       "tchat_message",
       `source_id.eq.${user.id}.or.receiver_id.eq.${user.id}`,
-      () => functionSetList()
+      () => {
+        functionSetList();
+      }
     );
 
     if (!list) functionSetList();
@@ -37,17 +39,15 @@ export default function MessageList({ conversation, sender, receiver }) {
       // Unsubscribe from the channel when the component unmounts
       updateSubscription.unsubscribe();
     };
-  }, [list]);
+  }, [functionSetList, list]);
 
   return (
-    <div className="overflow-y-scroll gap-1 flex flex-col-reverse px-[3%] py-[1%] my-[3%] mt-[8vh] h-[84vh]">
+    <div className="overflow-y-scroll gap-1 flex flex-col-reverse px-[3%] py-[2%] my-[3%] mt-[8vh] h-[84vh]">
       {list &&
         list != [] &&
         list.map((e, i) => {
-          // keep time_difference so that it writes when it's another day
-          const time_difference = (i === 0) ? {hours: 0, minutes: 0, days:0} : timeDifference(list[i].created_at, list[i-1].created_at);
           // if it's the first message of the list, there's nothing to compare to so no time display
-
+          const differentday = (i === 0) ? false : differentDay(list[i].created_at, list[i-1].created_at);
           const time_bool = (i === 0) ? true : timeOrNot(list[i], list[i-1]);
           let message_output = null;
           let day = null;
@@ -56,7 +56,7 @@ export default function MessageList({ conversation, sender, receiver }) {
           else 
             message_output = <ReceiverMessage  message={e} user={receiver} time_bool={time_bool}/>
 
-          if (time_difference.days > 0) {
+          if (differentday) {
             day = <div className="w-full text-center p-1">{getDay(list[i-1].created_at)}</div>
           }
           
