@@ -9,7 +9,6 @@ import { global } from "styled-jsx/css";
 
 export default function Home() {
   const session = useSession();
-  const supabase = useSupabaseClient();
   const router = useRouter();
 
   useEffect(() => {

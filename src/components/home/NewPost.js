@@ -4,7 +4,7 @@ export default function NewPost({ sendPost }) {
   const [body, setBody] = useState("");
 
   return (
-    <div className="p-2 mt-[8vh]">
+    <div className="p-2 mt-[7vh] border-b-2">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -17,7 +17,6 @@ export default function NewPost({ sendPost }) {
           id="message"
           name="message"
           autoComplete="off"
-
           placeholder="Post something..."
           value={body}
           onChange={(e) => setBody(e.target.value)}
