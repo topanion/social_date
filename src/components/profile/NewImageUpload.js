@@ -58,7 +58,7 @@ export default function NewImageUpload({
   };
 
   return (
-    <div className="fixed top-0 z-50 h-screen w-screen flex bg-black/30">
+    <div className="fixed top-0 left-0 z-50 h-screen w-screen flex bg-black/30">
       <div className="m-auto rounded-xl p-3 flex flex-col gap-2 bg-white">
         <input type="file" onChange={handleFileChange} />
         <button
