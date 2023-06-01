@@ -42,7 +42,7 @@ export default function Header({ profile }) {
       {/**profile */}
       <div className="w-[100vw] min-h-[20vh] border-b-2 mb-1 pt-[5vh] flex flex-col gap-2 px-3">
         {/**Profile avatar */}
-        <div className="absolute top-[15vh] p-2 left-3 lg:top-[12vh] w-[20vw] h-[20vw] lg:w-[10vw] lg:h-[10vw] ml-1 rounded-full bg-white border border-white z-10">
+        <div className="absolute top-[15vh] p-1 left-3 lg:top-[12vh] w-[20vw] h-[20vw] lg:w-[10vw] lg:h-[10vw] ml-1 rounded-full bg-white border border-white z-10">
           <div
             className="w-full h-full rounded-full "
             style={avatarStyle}
