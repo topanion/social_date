@@ -6,6 +6,7 @@ import PostList from "../home/PostList";
 import Header from "./Header";
 import ProfileTop from "./ProfileTop";
 import { useRouter } from "next/router";
+import NewPost from "../home/NewPost";
 
 export default function Profile({ username }) {
   const supabase = useSupabaseClient();
@@ -47,12 +48,24 @@ export default function Profile({ username }) {
     }
   };
 
+  const sendPost = async (post) => {
+    const { data: newPost, error: postError } = await supabase
+      .from("posts")
+      .insert({
+        user_id: user.id,
+        content: post,
+      })
+      .select("*")
+      .single();
+  };
+
   return (
     <div className="mx-auto rounded-md flex flex-col">
       {profile && (
         <>
           <ProfileTop username={username} />
           <Header profile={profile} />
+          {user.id === profile.id && <NewPost sendPost={sendPost} />}
           <PostList specificUser={profile} />
           <Navbar />
         </>

@@ -38,16 +38,12 @@ export default function OtherUserHeader({ profile }) {
 
   return (
     <>
-      {friend && (
-        <>
-          {friend && friend.status === "approved" ? (
-            <MessageButton profile={profile} />
-          ) : (
-            <div className="">
-              <AddFriendButton profile={profile} link={friend} />
-            </div>
-          )}
-        </>
+      {friend && friend.status === "approved" ? (
+        <MessageButton profile={profile} />
+      ) : (
+        <div className="">
+          <AddFriendButton profile={profile} link={friend} />
+        </div>
       )}
     </>
   );
