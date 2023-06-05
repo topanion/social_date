@@ -10,14 +10,15 @@ export default function FeedTop({ user, profile }) {
 
   return (
     <div className="fixed top-0 bg-white w-full p-1 border-b-2 flex flex-row gap-2 items-center">
-      <Image
-        className="rounded-full"
-        src={image_source}
-        width={40}
-        height={40}
-        alt="profile pic"
-        onClick={() => router.push(`/${profile.username}`)}
-      />
+      <div className="max-h-[40px] w-auto rounded-full overflow-hidden">
+        <Image
+          src={image_source}
+          width={40}
+          height={40}
+          alt="profile pic"
+          onClick={() => router.push(`/${profile.username}`)}
+        />
+      </div>
       <p>{user.username}</p>
     </div>
   );

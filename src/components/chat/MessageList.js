@@ -10,6 +10,7 @@ import {
   getDay,
   differentDay,
 } from "../../utils/time";
+import Loading from "../tests/Loading";
 
 export default function MessageList({ conversation, sender, receiver }) {
   const [list, setList] = useState(null);
@@ -48,7 +49,7 @@ export default function MessageList({ conversation, sender, receiver }) {
 
   return (
     <div className="overflow-y-scroll gap-1 flex flex-col-reverse px-[3%] py-[2%] my-[3%] mt-[8vh] h-[84vh]">
-      {list &&
+      {list ? (
         list != [] &&
         list.map((e, i) => {
           // if it's the first message of the list, there's nothing to compare to so no time display
@@ -86,7 +87,10 @@ export default function MessageList({ conversation, sender, receiver }) {
               {day}
             </div>
           );
-        })}
+        })
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 }

@@ -5,10 +5,12 @@ import Navbar from "../Navbar";
 import PostList from "../home/PostList";
 import Header from "./Header";
 import ProfileTop from "./ProfileTop";
+import { useRouter } from "next/router";
 
 export default function Profile({ username }) {
   const supabase = useSupabaseClient();
   const user = useUser();
+  const router = useRouter();
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
@@ -16,6 +18,7 @@ export default function Profile({ username }) {
       supabase,
       "realtime changes on that profile",
       "*",
+      "profiles",
       `user.eq.${username}`,
       () => {
         getProfile();
@@ -36,7 +39,9 @@ export default function Profile({ username }) {
       .eq("username", username)
       .single();
 
-    if (error) console.log("no user found with username");
+    if (error) {
+      router.push("/");
+    }
     if (data) {
       setProfile(data);
     }

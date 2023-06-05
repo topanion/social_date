@@ -1,13 +1,13 @@
 import TestButton from "../tests/TestButton";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useState } from "react";
-import NewImageUpload from "./NewImageUpload";
+import NewImageUpload from "./header/NewImageUpload";
+import EditProfile from "./header/EditProfile";
+import OtherUserHeader from "./header/OtherUserHeader";
 
 export default function Header({ profile }) {
-  const supabase = useSupabaseClient();
   const user = useUser();
-  const [imageModalMode, setImageModalMode] = useState(null);
-  const [imageModalVisible, setImageModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
   const bannerStyle = profile.header_url
     ? {
         backgroundImage: `url('${profile.header_url}')`,
@@ -20,19 +20,6 @@ export default function Header({ profile }) {
       profile.avatar_url ? profile.avatar_url : "/profile/blank.png"
     }')`,
     backgroundSize: `cover`,
-  };
-
-  const imageModes = {
-    avatar: {
-      bucket: "avatars",
-      imageName: "profile_image",
-      profile_parameter: "avatar_url",
-    },
-    header: {
-      bucket: "header",
-      imageName: "profile_header",
-      profile_parameter: "header_url",
-    },
   };
 
   return (
@@ -49,38 +36,33 @@ export default function Header({ profile }) {
           ></div>
         </div>
         {/*rest of the header */}
-        <div className="w-full px-3 grid grid-cols-2">
+        <div className="w-full px-3 flex flex-row justify-between">
           <p className="text-3xl text-gray-800 font-bold">{profile.username}</p>
           <div className="flex flex-row gap-1">
-            {user && user.id === profile.id && (
+            {user && user.id === profile.id ? (
               <>
-                {imageModalVisible && (
-                  <NewImageUpload
-                    {...imageModes[imageModalMode]}
-                    onSet={() => setImageModalVisible(false)}
-                    profile={profile}
-                  />
+                {editModalVisible && (
+                  <>
+                    <EditProfile
+                      close={() => setEditModalVisible(false)}
+                      profile={profile}
+                    />
+                  </>
                 )}
                 <TestButton
                   onClick={() => {
-                    setImageModalMode("header");
-                    setImageModalVisible(true);
+                    setEditModalVisible(true);
                   }}
                 >
-                  New Header
-                </TestButton>
-                <TestButton
-                  onClick={() => {
-                    setImageModalMode("avatar");
-                    setImageModalVisible(true);
-                  }}
-                >
-                  New Avatar
+                  Edit profile
                 </TestButton>
               </>
+            ) : (
+              <OtherUserHeader profile={profile} />
             )}
           </div>
         </div>
+        <div className="text-sm">{profile.bio}</div>
       </div>
     </div>
   );

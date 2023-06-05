@@ -5,9 +5,10 @@ import {
 } from "@supabase/auth-helpers-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { getAllConv } from "@/utils/db";
+import { getAllConv } from "@/utils/rls/db";
 import LinkToConv from "@/components/chat/LinkToConv";
 import Navbar from "@/components/Navbar";
+import Loading from "@/components/tests/Loading";
 
 export default function Page() {
   const [conversations, setConversations] = useState(null);
@@ -34,14 +35,17 @@ export default function Page() {
         Conversations
       </div>
       <div className="mx-auto w-[80%] flex flex-col max-h-[70vh] gap-3">
-        {conversations &&
+        {conversations ? (
           conversations.map((e, i) => (
             <LinkToConv
               key={"conversation n°" + i}
               conversation={e}
               onClick={() => router.push("/conversation/" + e.id)}
             />
-          ))}
+          ))
+        ) : (
+          <Loading />
+        )}
       </div>
       <Navbar />
     </div>

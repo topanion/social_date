@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-export default function NewPost({ sendPost }) {
+export default function NewPost({ sendPost, placeholder }) {
   const [body, setBody] = useState("");
 
   return (
-    <div className="p-2 mt-[7vh] border-b-2">
+    <div className="p-2 border-b-2">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -17,7 +17,7 @@ export default function NewPost({ sendPost }) {
           id="message"
           name="message"
           autoComplete="off"
-          placeholder="Post something..."
+          placeholder={placeholder ? placeholder : "Post something..."}
           value={body}
           onChange={(e) => setBody(e.target.value)}
           className="flex-1 p-2 rounded bg-[#2222263f] focus:border-[#222226] focus:outline-none text-white placeholder-white"

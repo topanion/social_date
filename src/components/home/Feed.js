@@ -7,7 +7,7 @@ import NewPost from "./NewPost";
 import { useState, useEffect } from "react";
 import PostList from "./PostList";
 import FeedTop from "./FeedTop";
-import { getAllFriends, getProfileById } from "../../utils/db";
+import { getAllFriends, getProfileById } from "../../utils/rls/db";
 
 export default function Feed() {
   const [friends, setFriends] = useState(null);
@@ -43,7 +43,9 @@ export default function Feed() {
   return (
     <div className="w-full flex flex-col">
       {user && profile && (
-        <FeedTop user={user.user_metadata} profile={profile} />
+        <div className="mt-[7vh]">
+          <FeedTop user={user.user_metadata} profile={profile} />
+        </div>
       )}
       <NewPost sendPost={sendPost} />
 
