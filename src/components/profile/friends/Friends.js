@@ -39,7 +39,7 @@ export default function Friends({ user }) {
       </div>
       {modalVisible === true && (
         <div
-          className="absolute flex top-0 left-0 z-50 h-screen w-screen bg-black/80"
+          className="fixed flex top-0 left-0 z-50 h-screen w-screen bg-black/80"
           onClick={() => {
             setTimeout(() => setModalVisible(null), 300);
           }}

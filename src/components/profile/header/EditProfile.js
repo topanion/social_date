@@ -12,7 +12,7 @@ export default function EditProfile({ close, profile }) {
 
   return (
     <div
-      className="absolute top-0 left-0 w-screen h-screen z-40 bg-black/60 flex"
+      className="fixed top-0 left-0 w-screen h-screen z-40 bg-black/60 flex"
       onClick={() => close()}
     >
       <div
