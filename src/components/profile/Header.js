@@ -28,13 +28,13 @@ export default function Header({ profile }) {
       {/**banner */}
       <div className="h-[15vh] w-full" style={bannerStyle}></div>
       {/**profile */}
-      <div className="w-[100vw] min-h-[20vh] border-b-2 mb-1 pt-[5vh] lg:pt-[15vh] flex flex-col gap-1 px-6">
+      <div className="relative w-[100vw] min-h-[20vh] border-b-2 mb-1 lg:pt-[15vh] flex flex-col gap-1 px-6 pb-[2vh]">
         {/**Profile avatar */}
-        <div className="absolute top-[15vh] p-1 left-3 lg:top-[12vh] w-[20vw] h-[20vw] lg:w-[10vw] lg:h-[10vw] ml-1 rounded-full bg-white border border-white z-10">
+        <div className="absolute top-[-5vh] p-1 left-3 w-[10vh] h-[10vh] lg:w-[10vw] lg:h-[10vw] ml-1 rounded-full bg-white border border-white z-10">
           <div className="w-full h-full rounded-full" style={avatarStyle}></div>
         </div>
         {/*rest of the header */}
-        <div className="w-full flex flex-row justify-between">
+        <div className="w-full flex flex-row justify-between mt-[5vh]">
           <p className="text-3xl text-gray-800 font-bold">{profile.username}</p>
           <div className="flex flex-row gap-1">
             {user && user.id === profile.id ? (
