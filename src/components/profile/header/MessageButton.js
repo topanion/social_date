@@ -23,16 +23,20 @@ export default function MessageButton({ profile }) {
   };
 
   return (
-    <div
-      className="rounded-full max-w-[40px] max-h-[40px] border-2 p-1"
-      onClick={() => router.push(`/conversation/${conversation.id}`)}
-    >
-      <Image
-        src="/icons/mail.png"
-        alt="message button"
-        height={30}
-        width={30}
-      />
-    </div>
+    <>
+      {conversation && (
+        <div
+          className="rounded-full max-w-[40px] max-h-[40px] border-2 p-1"
+          onClick={() => router.push(`/conversation/${conversation.id}`)}
+        >
+          <Image
+            src="/icons/mail.png"
+            alt="message button"
+            height={30}
+            width={30}
+          />
+        </div>
+      )}
+    </>
   );
 }

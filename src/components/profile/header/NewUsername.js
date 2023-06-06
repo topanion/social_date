@@ -14,21 +14,28 @@ export default function NewUsername({ profile, close }) {
 
   const handleConfirm = async () => {
     if (input) {
-      const { count, error } = await supabase
-        .from("profiles")
-        .select("*", { count: "exact" })
-        .eq("username", input);
-
-      if (count > 0) {
-        setErrorMessage("username already taken");
+      if (input.length > 12) {
+        setErrorMessage("username is too long, maximum 12 characters");
       } else {
-        const { data, error } = await supabase
+        const { count, error } = await supabase
           .from("profiles")
-          .update({
-            username: input,
-          })
-          .eq("id", profile.id);
-        router.push(`/profile`);
+          .select("*", { count: "exact" })
+          .eq("username", input);
+
+        if (count > 0) {
+          setErrorMessage("username already taken");
+        } else {
+          const { data, error } = await supabase
+            .from("profiles")
+            .update({
+              username: input,
+            })
+            .eq("id", profile.id);
+
+          if (!error) {
+            setTimeout(() => router.push(`/profile`), 300);
+          }
+        }
       }
     }
   };
@@ -37,6 +44,7 @@ export default function NewUsername({ profile, close }) {
     <div className="m-auto flex flex-col gap-2">
       <input
         className="border rounded-xl p-1 text-center"
+        maxLength={12}
         onChange={(e) => handleType(e)}
       />
       <p className="text-sm text-red-600 font-bold">{errorMessage}</p>

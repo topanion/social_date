@@ -18,11 +18,13 @@ export default function Page() {
   }, [router.isReady, session]);
 
   return (
-    <div className="m-auto flex flex-col border rounded-md gap-6">
-      {session && (<>
-      <Feed />
-      <Navbar/>
-      </>)}
+    <div className="m-auto flex flex-col gap-6">
+      {session && (
+        <>
+          <Feed />
+          <Navbar />
+        </>
+      )}
     </div>
   );
 }

@@ -30,7 +30,7 @@ export default function Post({ post }) {
         </p>
         <p className="text-sm text-gray-500 mt-2">{post.content}</p>
         <div className="w-full flex justify-between mt-2">
-          <div className="flex flex-row gap-1">
+          <div className="flex flex-row gap-1 opacity-60">
             <Image
               src="/icons/comment.png"
               width={20}

@@ -5,43 +5,44 @@ import {
 } from "@supabase/auth-helpers-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { getAllConv } from "@/utils/rls/db";
+import { getAllConv, getAllFriends, getAllSuggestions } from "@/utils/rls/db";
 import LinkToConv from "@/components/chat/LinkToConv";
 import Navbar from "@/components/Navbar";
 import Loading from "@/components/tests/Loading";
+import ManageFriend from "@/components/profile/friends/ManageFriend";
 
 export default function Page() {
-  const [conversations, setConversations] = useState(null);
+  const [list, setList] = useState(null);
   const supabase = useSupabaseClient();
   const user = useUser();
   const router = useRouter();
   const session = useSession();
 
   useEffect(() => {
-    if (!session && router.isReady) {
-      router.push("/");
+    if (user && !list) {
+      getSuggestions();
     }
+  }, [user, list, router.isReady, session]);
 
-    if (user && !conversations) {
-      getAllConv(user, supabase).then((e) => {
-        setConversations(e);
-      });
-    }
-  }, [user, conversations, router.isReady, session]);
+  const getSuggestions = async () => {
+    getAllSuggestions(supabase, user).then((e) => {
+      console.log(e);
+      setList(e);
+    });
+  };
 
   return (
     <div className="h-full w-full flex flex-col">
       <div className="w-[80%] mx-[10%] text-xl font-bold py-[5%] border-b-2 mb-3">
-        Conversations
+        Friend suggestions
       </div>
       <div className="mx-auto w-[80%] flex flex-col max-h-[70vh] gap-3">
-        {user && conversations ? (
-          conversations.map((e, i) => (
-            <LinkToConv
-              key={"conversation n°" + i}
-              conversation={e}
-              user={user}
-              onClick={() => router.push("/conversation/" + e.id)}
+        {user && list ? (
+          list.map((e, i) => (
+            <ManageFriend
+              key={"suggestion nb " + i}
+              friend={e}
+              defaultStatus="deleted"
             />
           ))
         ) : (

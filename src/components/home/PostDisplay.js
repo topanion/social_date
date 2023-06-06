@@ -1,6 +1,8 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function PostDisplay({ post, user }) {
+  const router = useRouter();
   const image_source = user.avatar_url ? user.avatar_url : "/profile/blank.png";
   const time = new Date(post.created_at);
   const displayTime = time.toLocaleDateString([], {
@@ -13,7 +15,10 @@ export default function PostDisplay({ post, user }) {
   return (
     <div className="w-[90%] flex flex-col gap-2 w-screen mx-auto mt-[5vh] border-b-2 p-3">
       <div className="flex flex-row gap-2">
-        <div className="rounded-full max-w-[30px] max-h-[30px] overflow-hidden w-fit">
+        <div
+          onClick={() => router.push(`/${user.username}`)}
+          className="rounded-full max-w-[30px] max-h-[30px] overflow-hidden w-fit"
+        >
           <Image
             className="rounded-full"
             src={image_source}

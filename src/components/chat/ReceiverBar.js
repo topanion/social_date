@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
+import UserIcon from "../tests/UserIcon";
 
 export default function ReceiverBar({ user }) {
   const router = useRouter();
@@ -20,16 +21,13 @@ export default function ReceiverBar({ user }) {
           />
         </button>
       )}
-
-      <Image
-        className="rounded-full"
+      <div
+        className="flex flex-row gap-2"
         onClick={() => router.push(`/${user.username}`)}
-        src={image_source}
-        width={30}
-        height={30}
-        alt="receiver profile pic"
-      />
-      <p>{user.username}</p>
+      >
+        <UserIcon source={image_source} />
+        <p className="my-auto">{user.username}</p>
+      </div>
     </div>
   );
 }

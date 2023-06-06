@@ -23,7 +23,7 @@ export default function EditProfile({ close, profile }) {
       >
         <div className="flex flex-col w-full gap-6">
           <select
-            className="mx-auto w-fit"
+            className="p-1 rounded-xl border mx-auto w-fit"
             onChange={(e) => changeMode(e.target.value)}
           >
             <option value="username">Change username</option>

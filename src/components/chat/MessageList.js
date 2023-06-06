@@ -24,6 +24,17 @@ export default function MessageList({ conversation, sender, receiver }) {
       .order("created_at", { ascending: false })
       .eq("conversation_id", conversation.id);
 
+    // will reset ping if user is in the conversation
+    const { data: resettingConvPing } = await supabase
+      .from("conversation")
+      .update({
+        ping_for: null,
+        ping_nb: null,
+      })
+      .match({ id: conversation.id, ping_for: sender.id });
+
+    console.log("reset : ", resettingConvPing);
+
     setList(data);
   };
 

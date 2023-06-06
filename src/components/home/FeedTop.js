@@ -9,7 +9,7 @@ export default function FeedTop({ user, profile }) {
     : "/profile/blank.png";
 
   return (
-    <div className="fixed top-0 bg-white w-full p-1 border-b-2 flex flex-row gap-2 items-center">
+    <div className="fixed top-0 bg-white z-40 w-full p-1 border-b-2 flex flex-row gap-2 items-center">
       <div className="max-h-[40px] w-auto rounded-full overflow-hidden">
         <Image
           src={image_source}

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import AddFriendButton from "./AddFriendButton";
 import { createUpdateSubscription } from "@/utils/subscription";
 import MessageButton from "./MessageButton";
+import UserIcon from "@/components/tests/UserIcon";
 
 export default function OtherUserHeader({ profile }) {
   const user = useUser();
@@ -18,7 +19,6 @@ export default function OtherUserHeader({ profile }) {
       "user_friend",
       `or(user1.eq.${user.id}, user2.eq.${user.id})`,
       () => {
-        console.log("ok now ");
         checkIsFriend();
       }
     );
@@ -39,7 +39,10 @@ export default function OtherUserHeader({ profile }) {
   return (
     <>
       {friend && friend.status === "approved" ? (
-        <MessageButton profile={profile} />
+        <>
+          <MessageButton profile={profile} />
+          <UserIcon border={true} source={"/icons/friend.png"} />
+        </>
       ) : (
         <div className="">
           <AddFriendButton profile={profile} link={friend} />

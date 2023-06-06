@@ -6,6 +6,7 @@ import PostDisplay from "./PostDisplay";
 import PostDisplayTop from "./PostDisplayTop";
 import NewPost from "./NewPost";
 import CommentList from "./CommentList";
+import Navbar from "../Navbar";
 
 export default function PostPage({ post_id }) {
   const supabase = useSupabaseClient();
@@ -56,12 +57,13 @@ export default function PostPage({ post_id }) {
           <PostDisplayTop user={postWriter} />
           <PostDisplay post={post} user={postWriter} />
           <CommentList post_id={post.id} />
-          <div className="fixed bottom-0 w-full px-[5%]">
+          <div className="w-full px-[5%]">
             <NewPost
               sendPost={writeComment}
               placeholder={"Write a comment..."}
             />
           </div>
+          <Navbar />
         </>
       ) : (
         <Loading />

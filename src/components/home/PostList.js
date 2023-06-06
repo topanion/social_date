@@ -11,7 +11,10 @@ export default function PostList({ friends, specificUser }) {
   const user = useUser();
 
   // use allIds so that it does not only get user posts but also friends one
-  const allIds = specificUser ? [specificUser.id] : [].concat(friends, user.id);
+  const allList = specificUser ? [specificUser] : friends;
+  const allIds = allList.map((e) => {
+    return e.id;
+  });
 
   const functionSetList = async () => {
     const { data } = await supabase
@@ -55,7 +58,7 @@ export default function PostList({ friends, specificUser }) {
   }, [list, user]);
 
   return (
-    <div className="flex flex-col gap-2 py-[1%] px-[1%]">
+    <div className="flex flex-col gap-2 pt-[1%] px-[1%] mb-[5vh] ">
       {list ? (
         list != [] &&
         list.map((e, i) => {

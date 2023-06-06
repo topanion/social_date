@@ -21,7 +21,7 @@ export default function NewText({ sendMessage }) {
           value={body}
           autoComplete="off"
           onChange={(e) => setBody(e.target.value)}
-          className="flex-auto px-3 py-2 text-base h-[4vh] min-h-[30px] rounded-full bg-gray-400 focus:border-[#222226] focus:outline-none text-white placeholder-white"
+          className="flex-auto px-3 py-2 text-base h-[4vh] min-h-[40px] rounded-full bg-gray-400 focus:border-[#222226] focus:outline-none text-white placeholder-white"
         />
         <button
           type="submit"

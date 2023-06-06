@@ -26,8 +26,7 @@ export default function Chat({ id }) {
     if (user.id === data.user1.id) {
       setReceiver(data.user2);
       setSender(data.user1);
-    }
-    else {
+    } else {
       setReceiver(data.user1);
       setSender(data.user2);
     }
@@ -44,14 +43,43 @@ export default function Chat({ id }) {
       })
       .select("*")
       .single();
+
+    // verify if ping already exists
+    const { data: checkingPing, error: noPing } = await supabase
+      .from("conversation")
+      .select("*")
+      .match({ id: conversation.id, ping_for: receiver.id });
+
+    // if it does, just increment
+    if (checkingPing.length != 0) {
+      const { data: updatePing, error: nopdate } = await supabase
+        .from("conversation")
+        .update({
+          ping_nb: checkingPing[0].ping_nb + 1,
+        })
+        .match({ id: conversation.id, ping_for: receiver.id });
+    } else {
+      // otherwise, it sets ping_nb to 1 and add the ping_for
+      const { data: newPing, error: noNewPing } = await supabase
+        .from("conversation")
+        .update({
+          ping_for: receiver.id,
+          ping_nb: 1,
+        })
+        .eq("id", conversation.id);
+    }
   };
 
   return (
     <div className="mx-auto rounded-md flex flex-col">
       {conversation && (
         <>
-          <ReceiverBar user={receiver}/>
-          <MessageList conversation={conversation} sender={sender} receiver={receiver} />
+          <ReceiverBar user={receiver} />
+          <MessageList
+            conversation={conversation}
+            sender={sender}
+            receiver={receiver}
+          />
           <NewText sendMessage={sendMessage} />
         </>
       )}
