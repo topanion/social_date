@@ -16,6 +16,8 @@ export default function NewUsername({ profile, close }) {
     if (input) {
       if (input.length > 12) {
         setErrorMessage("username is too long, maximum 12 characters");
+      } else if (input.lenght < 3) {
+        setErrorMessage("username is too short, minimum 3 characters");
       } else {
         const { count, error } = await supabase
           .from("profiles")
