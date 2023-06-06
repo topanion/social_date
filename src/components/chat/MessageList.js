@@ -59,7 +59,7 @@ export default function MessageList({ conversation, sender, receiver }) {
   }, [functionSetList, list]);
 
   return (
-    <div className="overflow-y-scroll gap-1 flex flex-col-reverse px-[3%] py-[2%] my-[3%] mt-[8vh] h-[84vh]">
+    <div className="gap-1 flex flex-col-reverse px-[3%] py-[2%] my-[3%] mt-[8vh] pb-[10vh]">
       {list ? (
         list != [] &&
         list.map((e, i) => {

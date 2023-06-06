@@ -71,7 +71,7 @@ export default function Chat({ id }) {
   };
 
   return (
-    <div className="mx-auto rounded-md flex flex-col">
+    <div className="mx-auto rounded-md flex flex-col h-[100vh]">
       {conversation && (
         <>
           <ReceiverBar user={receiver} />
