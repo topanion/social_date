@@ -222,7 +222,40 @@ export const setUsernameIfNull = async (supabase, user_id) => {
     .eq("id", user_id)
     .filter("username", "is", "null")
     .select();
-
-  console.log("reponse is ", response);
   return response;
+};
+
+export const uploadPostImage = async (supabase, file, post_id, type) => {
+  const publicUrl =
+    "https://stilftnvhmqkbysfvptr.supabase.co/storage/v1/object/public/image_posts/";
+
+  const { data, error } = await supabase.storage
+    .from("image_posts")
+    .upload(
+      `post_${post_id}.image.${file.name.substring(
+        file.name.lastIndexOf(".") + 1
+      )}`,
+      file,
+      { upsert: true }
+    );
+  if (error) return "error during upload";
+  else {
+    const {
+      data: update,
+      error: updateError,
+      statusText,
+    } = await supabase
+      .from(type)
+      .update({ image: true, link: `${publicUrl}${data.path}` })
+      .eq("id", post_id)
+      .select("*");
+
+    console.log(statusText);
+    if (updateError) {
+      console.log("error is ", updateError);
+      return updateError;
+    } else if (update) {
+      return update;
+    }
+  }
 };

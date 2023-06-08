@@ -9,13 +9,13 @@ export default function Navbar() {
   const supabase = useSupabaseClient();
 
   return (
-    <div className="h-[6vh] bg-white fixed bottom-0 w-full border-t p-1 flex flex-row justify-between">
+    <div className=" min-h-[40px] h-[6vh] bg-white fixed bottom-0 w-full border-t flex flex-row justify-between">
       <NavHomeButton onClick={() => router.push("/feed")} />
       <NavMessageButton onClick={() => router.push("/conversation")} />
       <NavProfileButton onClick={() => router.push("/profile")} />
 
-      <div className="m-auto" onClick={() => supabase.auth.signOut()}>
-        Logout
+      <div className="flex grow" onClick={() => supabase.auth.signOut()}>
+        <div className="relative m-auto">Logout</div>
       </div>
     </div>
   );

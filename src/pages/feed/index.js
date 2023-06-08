@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Post from "@/components/home/Post";
 import Feed from "@/components/home/Feed";
 import Navbar from "@/components/Navbar";
+import Head from "next/head";
 
 export default function Page() {
   const supabase = useSupabaseClient();
@@ -18,13 +19,20 @@ export default function Page() {
   }, [router.isReady, session]);
 
   return (
-    <div className="m-auto flex flex-col gap-6">
-      {session && (
-        <>
-          <Feed />
-          <Navbar />
-        </>
-      )}
-    </div>
+    <>
+      <Head>
+        <title>Eat my B12 - FYP</title>
+      </Head>
+      <main>
+        <div className="m-auto flex flex-col gap-6">
+          {session && (
+            <>
+              <Feed />
+              <Navbar />
+            </>
+          )}
+        </div>
+      </main>
+    </>
   );
 }

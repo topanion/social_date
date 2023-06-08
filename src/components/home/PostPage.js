@@ -46,8 +46,10 @@ export default function PostPage({ post_id }) {
         user_id: user.id,
         post_id: post.id,
       })
-      .select()
+      .select("*")
       .single();
+
+    if (data) return data;
   };
 
   return (
@@ -57,10 +59,11 @@ export default function PostPage({ post_id }) {
           <PostDisplayTop user={postWriter} />
           <PostDisplay post={post} user={postWriter} />
           <CommentList post_id={post.id} />
-          <div className="w-full px-[5%]">
+          <div className="fixed bottom-[6vh] bg-white w-full px-[5%]">
             <NewPost
               sendPost={writeComment}
               placeholder={"Write a comment..."}
+              type="comments"
             />
           </div>
           <Navbar />

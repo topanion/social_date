@@ -5,6 +5,7 @@ import OtherUserHeader from "./header/OtherUserHeader";
 import Image from "next/image";
 import FriendRequestButton from "./friend-requests/FriendRequestButton";
 import Friends from "./friends/Friends";
+import ImagePreview from "../image/ImagePreview";
 
 export default function Header({ profile }) {
   const user = useUser();
@@ -24,17 +25,21 @@ export default function Header({ profile }) {
   };
 
   return (
-    <div className="w-full flex flex-col mt-[5vh]">
+    <div className="w-full flex flex-col">
       {/**banner */}
-      <div className="h-[15vh] w-full" style={bannerStyle}></div>
+      <div className="h-[20vh] w-full relative" style={bannerStyle}>
+        <ImagePreview source={profile.header_url} />
+      </div>
       {/**profile */}
       <div className="relative w-[100vw] min-h-[20vh] border-b-2 mb-1 lg:pt-[15vh] flex flex-col gap-1 px-6 pb-[2vh]">
         {/**Profile avatar */}
-        <div className="absolute top-[-5vh] p-1 left-3 w-[10vh] h-[10vh] lg:w-[10vw] lg:h-[10vw] ml-1 rounded-full bg-white border border-white z-10">
-          <div className="w-full h-full rounded-full" style={avatarStyle}></div>
+        <div className="absolute top-[-5vh] lg:top-[-10vh] p-1 w-[10vh] h-[10vh] lg:w-[10vw] lg:h-[10vw] ml-1 rounded-full bg-white border border-white">
+          <div className="w-full h-full rounded-full z-30" style={avatarStyle}>
+            <ImagePreview source={profile.avatar_url} />
+          </div>
         </div>
         {/*rest of the header */}
-        <div className="w-full flex flex-row justify-between mt-[5vh]">
+        <div className="w-full flex flex-row justify-between mt-[5vh] lg:mt-[0vh]">
           <p className="text-3xl text-gray-800 font-bold">{profile.username}</p>
           <div className="flex flex-row gap-1">
             {user && user.id === profile.id ? (

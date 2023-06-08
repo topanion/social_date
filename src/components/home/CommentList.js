@@ -13,7 +13,7 @@ export default function CommentList({ post_id }) {
   const functionSetList = async () => {
     const { data } = await supabase
       .from("comments")
-      .select("id, created_at, text, user_id (*))")
+      .select("*, user_id (*))")
       .order("created_at", { ascending: true })
       .eq("post_id", post_id);
 
@@ -24,7 +24,7 @@ export default function CommentList({ post_id }) {
     const updateSubscription = createUpdateSubscription(
       supabase,
       "realtime changes on comments",
-      "INSERT",
+      "*",
       "comments",
       `post_id.eq.${post_id}`,
       () => functionSetList()
@@ -41,7 +41,7 @@ export default function CommentList({ post_id }) {
   }, [list, user]);
 
   return (
-    <div className="flex flex-col gap-2 mx-[3%] py-[1%]">
+    <div className="flex flex-col gap-2 mx-[3%] py-[1%] pb-[25vh]">
       {list ? (
         list != [] &&
         list.map((e, i) => {

@@ -5,11 +5,9 @@ import {
 } from "@supabase/auth-helpers-react";
 import { useEffect, createContext } from "react";
 import Login from "../components/Login";
-import Chat from "@/components/chat/Chat";
-import TestButton from "@/components/tests/TestButton";
 import { useRouter } from "next/router";
-import { global } from "styled-jsx/css";
 import { setUsernameIfNull } from "@/utils/rls/db";
+import Head from "next/head";
 
 export default function Home() {
   const session = useSession();
@@ -30,10 +28,15 @@ export default function Home() {
   };
 
   return (
-    <main>
-      <div className="h-[100vh] w-screen flex">
-        <div className="m-auto">{!session && <Login />}</div>
-      </div>
-    </main>
+    <>
+      <Head>
+        <title>Home</title>
+      </Head>
+      <main>
+        <div className="h-[100vh] w-screen flex">
+          <div className="m-auto">{!session && <Login />}</div>
+        </div>
+      </main>
+    </>
   );
 }

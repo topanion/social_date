@@ -5,21 +5,15 @@ export default function ProfileTop({ username }) {
   const router = useRouter();
 
   return (
-    <div className="fixed top-0 h-[5vh] z-40 bg-white w-full p-2 flex flex-row gap-2 items-center">
+    <div className="fixed min-h-[35px] top-0 h-[5vh] z-20 w-full p-2 flex flex-row gap-2 items-center">
       {router && (
-        <button
-          className="p-1 flex mr-4 rounded-full hover:bg-gray-300 font-bold text-4xl my-auto"
-          onClick={() => router.push("/feed")}
+        <a
+          className="flex mr-4 rounded-full h-[30px] w-[30px] bg-gray-800/80 font-bold my-auto"
+          href="javascript:history.back()"
         >
-          <Image
-            width={20}
-            height={20}
-            src="/icons/arrow-go-back.svg"
-            alt="previous page button"
-          />
-        </button>
+          <span className="m-auto text-xl text-white">←</span>
+        </a>
       )}
-      <p>{username}</p>
     </div>
   );
 }

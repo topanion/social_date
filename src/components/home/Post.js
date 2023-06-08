@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { postTime } from "../../utils/time";
 import { useRouter } from "next/router";
+import ImagePreview from "../image/ImagePreview";
 
 export default function Post({ post }) {
   const timeDiff = postTime(post.created_at);
@@ -23,13 +24,27 @@ export default function Post({ post }) {
           alt="profile pic"
         />
       </div>
-      <div className="flex flex-col max-w-[80%]">
-        <p>
+      <div className="flex flex-col max-w-[80%] grow gap-1">
+        <p className="px-1">
           {post.user_id.username}{" "}
           <span className="text-gray-500"> - {timeDiff}</span>
         </p>
-        <p className="text-sm text-gray-500 mt-2">{post.content}</p>
-        <div className="w-full flex justify-between mt-2">
+        <p className="px-1 text-sm text-gray-500">{post.content}</p>
+        {post.image === true && (
+          <div
+            className="relative h-[20vh] rounded-xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={post.link}
+              fill
+              alt={`image for post ${post.id}`}
+              style={{ objectFit: "cover" }}
+            />
+            <ImagePreview source={post.link} />
+          </div>
+        )}
+        <div className="w-full flex justify-between grow mt-2">
           <div className="flex flex-row gap-1 opacity-60">
             <Image
               src="/icons/comment.png"

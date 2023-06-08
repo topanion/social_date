@@ -5,11 +5,11 @@ export default function PostDisplayTop({ user }) {
   const router = useRouter();
 
   return (
-    <div className="fixed top-0 h-[5vh] bg-white w-full p-2 border-b-2 flex flex-row gap-2 items-center">
+    <div className="fixed z-30 min-h-[35px] top-0 h-[5vh] bg-white w-full p-2 border-b-2 flex flex-row gap-2 items-center">
       {router && (
-        <button
+        <a
           className="p-1 flex mr-4 rounded-full hover:bg-gray-300 font-bold text-4xl my-auto"
-          onClick={() => router.push(`/${user.username}`)}
+          href="javascript:history.back()"
         >
           <Image
             width={20}
@@ -17,7 +17,7 @@ export default function PostDisplayTop({ user }) {
             src="/icons/arrow-go-back.svg"
             alt="previous page button"
           />
-        </button>
+        </a>
       )}
     </div>
   );

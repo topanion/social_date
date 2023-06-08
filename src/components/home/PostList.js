@@ -12,14 +12,17 @@ export default function PostList({ friends, specificUser }) {
 
   // use allIds so that it does not only get user posts but also friends one
   const allList = specificUser ? [specificUser] : friends;
-  const allIds = allList.map((e) => {
-    return e.id;
-  });
+  const allIds = [].concat(
+    allList.map((e) => {
+      return e.id;
+    }),
+    user.id
+  );
 
   const functionSetList = async () => {
     const { data } = await supabase
       .from("posts")
-      .select("id, created_at, content, user_id (username, avatar_url)")
+      .select("*, user_id (username, avatar_url)")
       .order("created_at", { ascending: false })
       .in("user_id", allIds);
 
@@ -41,7 +44,7 @@ export default function PostList({ friends, specificUser }) {
     const updateSubscription = createUpdateSubscription(
       supabase,
       "realtime changes on posts",
-      "INSERT",
+      "*",
       "posts",
       `user_id.in.${allIds}`,
       () => functionSetList()

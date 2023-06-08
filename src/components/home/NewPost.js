@@ -1,15 +1,25 @@
+import { uploadPostImage } from "@/utils/rls/db";
 import { useState } from "react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
-export default function NewPost({ sendPost, placeholder }) {
+export default function NewPost({ sendPost, placeholder, type = "posts" }) {
   const [body, setBody] = useState("");
+  const [file, setFile] = useState(null);
+  const supabase = useSupabaseClient();
 
   return (
     <div className="p-2 border-b-2">
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          sendPost(body);
+          const post = await sendPost(body);
+          if (file && post) {
+            uploadPostImage(supabase, file, post.id, type).then((e) => {
+              console.log(e);
+            });
+          }
           setBody("");
+          setFile(null);
         }}
         className="flex items-center space-x-3"
       >
@@ -20,15 +30,29 @@ export default function NewPost({ sendPost, placeholder }) {
           placeholder={placeholder ? placeholder : "Post something..."}
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          className="flex-1 p-2 rounded bg-[#2222263f] focus:border-[#222226] focus:outline-none text-white placeholder-white"
+          className="flex-1 p-2 h-[7vh] focus:min-h-[12vh] rounded bg-[#2222263f] focus:border-[#222226] focus:outline-none text-white placeholder-white"
         />
-        <button
-          type="submit"
-          className="bg-[#3c8baa] rounded-2xl font-medium text-white px-2 py-1  text-lg border border-transparent hover:bg-[#363739] transition"
-          disabled={!body}
-        >
-          ►
-        </button>
+        <div className="flex flex-row gap-1">
+          <button
+            type="submit"
+            className="bg-[#3c8baa] rounded-full h-[30px] w-[30px] flex font-medium text-white  text-lg"
+            disabled={!body}
+          >
+            <span className="m-auto">►</span>
+          </button>
+          <label
+            className={`${
+              file ? "bg-orange-400" : "bg-[#3c8baa]"
+            } rounded-full h-[30px] w-[30px] flex`}
+          >
+            <span className="m-auto">📎</span>
+            <input
+              type="file"
+              onChange={(e) => setFile(e.target.files[0])}
+              hidden
+            />
+          </label>
+        </div>
       </form>
     </div>
   );

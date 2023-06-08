@@ -43,8 +43,8 @@ export default function NavProfileButton({ onClick }) {
   };
 
   return (
-    <div className="m-auto" onClick={() => onClick()}>
-      <div className="relative">
+    <div className="grow flex" onClick={() => onClick()}>
+      <div className="relative m-auto">
         {ping && <Ping />}
         <Image
           src="/icons/profile.png"

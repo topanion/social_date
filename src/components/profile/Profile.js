@@ -49,7 +49,8 @@ export default function Profile({ username }) {
   };
 
   const sendPost = async (post) => {
-    const { data: newPost, error: postError } = await supabase
+    if (!post) return null;
+    const { data, error } = await supabase
       .from("posts")
       .insert({
         user_id: user.id,
@@ -57,6 +58,9 @@ export default function Profile({ username }) {
       })
       .select("*")
       .single();
+
+    if (error) console.log("error : ", error);
+    if (data) return data;
   };
 
   return (

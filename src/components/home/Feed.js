@@ -30,7 +30,8 @@ export default function Feed() {
   }, [friends, profile]);
 
   const sendPost = async (post) => {
-    const { data: newPost, error: postError } = await supabase
+    if (!post) return null;
+    const { data, error } = await supabase
       .from("posts")
       .insert({
         user_id: user.id,
@@ -38,6 +39,9 @@ export default function Feed() {
       })
       .select("*")
       .single();
+
+    if (error) console.log("error : ", error);
+    if (data) return data;
   };
 
   return (

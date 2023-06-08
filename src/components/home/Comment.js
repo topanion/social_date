@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ImagePreview from "../image/ImagePreview";
 import { postTime } from "../../utils/time";
 import { useRouter } from "next/router";
 
@@ -10,11 +11,11 @@ export default function Comment({ comment }) {
   const router = useRouter();
 
   return (
-    <div
-      className="w-full flex flex-row gap-2 border-b p-3"
-      onClick={() => router.push(`/${comment.user_id.username}`)}
-    >
-      <div className="rounded-full max-w-[30px] max-h-[30px] overflow-hidden w-fit">
+    <div className="w-full flex flex-row gap-2 border-b p-3">
+      <div
+        onClick={() => router.push(`/${comment.user_id.username}`)}
+        className="rounded-full max-w-[30px] max-h-[30px] overflow-hidden w-fit"
+      >
         <Image
           className="rounded-full"
           src={image_source}
@@ -30,6 +31,20 @@ export default function Comment({ comment }) {
         </div>
 
         <p className="text-sm text-gray-500">{comment.text}</p>
+        {comment.image === true && (
+          <div
+            className="relative h-[20vh] rounded-xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={comment.link}
+              fill
+              alt={`image for post ${comment.id}`}
+              style={{ objectFit: "cover" }}
+            />
+            <ImagePreview source={comment.link} />
+          </div>
+        )}
       </div>
     </div>
   );
