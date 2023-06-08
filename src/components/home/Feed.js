@@ -18,7 +18,8 @@ export default function Feed() {
   useEffect(() => {
     if (user && !friends) {
       getAllFriends(user, supabase).then((e) => {
-        setFriends(e);
+        const withUser = [].concat(user, e);
+        setFriends(withUser);
       });
 
       if (user && !profile) {

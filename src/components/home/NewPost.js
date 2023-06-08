@@ -30,7 +30,7 @@ export default function NewPost({ sendPost, placeholder, type = "posts" }) {
           placeholder={placeholder ? placeholder : "Post something..."}
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          className="flex-1 p-2 h-[7vh] focus:min-h-[12vh] rounded bg-[#2222263f] focus:border-[#222226] focus:outline-none text-white placeholder-white"
+          className="flex-1 p-2 h-[7vh] rounded bg-[#2222263f] focus:border-[#222226] focus:outline-none text-white placeholder-white"
         />
         <div className="flex flex-row gap-1">
           <button
@@ -49,6 +49,7 @@ export default function NewPost({ sendPost, placeholder, type = "posts" }) {
             <input
               type="file"
               onChange={(e) => setFile(e.target.files[0])}
+              accept="image/*"
               hidden
             />
           </label>

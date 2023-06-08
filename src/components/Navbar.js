@@ -9,7 +9,7 @@ export default function Navbar() {
   const supabase = useSupabaseClient();
 
   return (
-    <div className=" min-h-[40px] h-[6vh] bg-white fixed bottom-0 w-full border-t flex flex-row justify-between">
+    <div className="z-50 min-h-[40px] h-[6vh] bg-white fixed bottom-0 w-full border-t flex flex-row justify-between">
       <NavHomeButton onClick={() => router.push("/feed")} />
       <NavMessageButton onClick={() => router.push("/conversation")} />
       <NavProfileButton onClick={() => router.push("/profile")} />

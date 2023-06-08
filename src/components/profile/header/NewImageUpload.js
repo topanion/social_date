@@ -55,7 +55,7 @@ export default function NewImageUpload({
 
   return (
     <div className="m-auto flex flex-col gap-2">
-      <input type="file" onChange={handleFileChange} />
+      <input type="file" accept="image/*" onChange={handleFileChange} />
       <button
         type="button"
         className="rounded-xl p-1 border"

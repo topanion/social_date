@@ -12,12 +12,9 @@ export default function PostList({ friends, specificUser }) {
 
   // use allIds so that it does not only get user posts but also friends one
   const allList = specificUser ? [specificUser] : friends;
-  const allIds = [].concat(
-    allList.map((e) => {
-      return e.id;
-    }),
-    user.id
-  );
+  const allIds = allList.map((e) => {
+    return e.id;
+  });
 
   const functionSetList = async () => {
     const { data } = await supabase
