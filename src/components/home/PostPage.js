@@ -7,19 +7,21 @@ import PostDisplayTop from "./PostDisplayTop";
 import NewPost from "./NewPost";
 import CommentList from "./CommentList";
 import Navbar from "../Navbar";
+import { useRouter } from "next/router";
 
 export default function PostPage({ post_id }) {
   const supabase = useSupabaseClient();
   const user = useUser();
+  const router = useRouter();
 
   const [post, setPost] = useState(null);
   const [postWriter, setPostWriter] = useState(null);
 
   useEffect(() => {
-    if (!post && !postWriter) {
+    if (!post && !postWriter && router.isReady) {
       setFunction();
     }
-  }, [post, postWriter]);
+  }, [post, postWriter, router.isReady]);
 
   const setFunction = async () => {
     const { data: postData } = await supabase
@@ -28,7 +30,11 @@ export default function PostPage({ post_id }) {
       .eq("id", post_id)
       .single();
 
-    setPost(postData);
+    if (postData) setPost(postData);
+    else {
+      router.push("/");
+      return;
+    }
 
     const { data: writerData } = await supabase
       .from("profiles")
