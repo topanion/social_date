@@ -1,7 +1,7 @@
 export const getAllFriends = async (user, supabase) => {
   const { data, error } = await supabase
     .from("user_friend")
-    .select("*, user1(*), user2(*)")
+    .select("*, profile1:profiles!user1(*), profile2:profiles!user2(*)")
     .or(
       "and(user1.eq." +
         user.id +
@@ -13,7 +13,7 @@ export const getAllFriends = async (user, supabase) => {
   if (!data) return null;
 
   const allFriends = data.map((e) => {
-    return e.user1.id === user.id ? e.user2 : e.user1;
+    return e.user1 === user.id ? e.profile2 : e.profile1;
   });
   return allFriends;
 };
@@ -21,7 +21,7 @@ export const getAllFriends = async (user, supabase) => {
 export const getAllFriendsWithLinks = async (user, supabase) => {
   const { data, error } = await supabase
     .from("user_friend")
-    .select("*, user1(*), user2(*)")
+    .select("*, profile1:profiles!user1(*), profile2:profiles!user2(*)")
     .or(
       "and(user1.eq." +
         user.id +
@@ -33,7 +33,10 @@ export const getAllFriendsWithLinks = async (user, supabase) => {
   if (!data) return null;
 
   const allLinks = data.map((e) => {
-    return { link: e, friend: e.user1.id === user.id ? e.user2 : e.user1 };
+    return {
+      link: e,
+      friend: e.profile1.id === user.id ? e.profile2 : e.profile1,
+    };
   });
   return allLinks;
 };
@@ -41,11 +44,11 @@ export const getAllFriendsWithLinks = async (user, supabase) => {
 export const getAllSuggestions = async (supabase, user) => {
   const { data: friends } = await supabase
     .from("user_friend")
-    .select("*, user1(*), user2(*)")
+    .select("*, profile1:profiles!user1(*), profile2:profiles!user2(*)")
     .or("user1.eq." + user.id + ",user2.eq." + user.id);
 
   const ids = friends.map((e) => {
-    return e.user1.id === user.id ? e.user2.id : e.user1.id;
+    return e.user1 === user.id ? e.user2 : e.user1;
   });
   const withUser = [].concat(ids, user.id);
 
@@ -67,7 +70,7 @@ export const getAllSuggestions = async (supabase, user) => {
 export const getAllFriendRequests = async (user, supabase) => {
   const { data, error } = await supabase
     .from("user_friend")
-    .select("*, user1(*), user2(*)")
+    .select("*, profile1:profiles!user1(*), profile2:profiles!user2(*)")
     .match({ user2: user.id, status: "pending" });
   if (error) console.log(error);
   if (!data) return null;
@@ -78,14 +81,14 @@ export const getAllFriendRequests = async (user, supabase) => {
 export const getAllConv = async (user, supabase) => {
   const { data, error } = await supabase
     .from("conversation")
-    .select("*, user1(*), user2(*)")
+    .select("*, profile1:profiles!user1(*), profile2:profiles!user2(*)")
     .or("user1.eq." + user.id + ", user2.eq." + user.id);
 
   const allConversations = data.map((e) => {
     return {
       id: e.id,
       sender: user.id,
-      receiver: e.user1.id === user.id ? e.user2 : e.user1,
+      receiver: e.user1 === user.id ? e.profile2 : e.profile1,
       ping_for: e.ping_for,
       ping_nb: e.ping_nb,
     };
@@ -145,7 +148,7 @@ export const getProfileById = async (supabase, id) => {
 export const checkFriendStatus = async (supabase, id1, id2) => {
   let { data, error } = await supabase
     .from("user_friend")
-    .select("*, user1(*), user2(*)")
+    .select("*, profile1:profiles!user1(*), profile2:profiles!user2(*)")
     .or(
       `and(user1.eq.${id2},user2.eq.${id1}),and(user1.eq.${id1},user2.eq.${id2})`
     );

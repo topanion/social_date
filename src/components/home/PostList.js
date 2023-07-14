@@ -19,9 +19,9 @@ export default function PostList({ friends, specificUser }) {
   const functionSetList = async () => {
     const { data } = await supabase
       .from("posts")
-      .select("*, user_id (username, avatar_url)")
+      .select("*, user_id!inner(id, username, avatar_url)")
       .order("created_at", { ascending: false })
-      .in("user_id", allIds);
+      .in("user_id.id", allIds);
 
     const output = await Promise.all(
       data.map(async (post) => {
